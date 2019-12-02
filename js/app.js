@@ -8,7 +8,6 @@ App.prototype.start = function(){
     scenes.push(Boot);
     scenes.push(Preload);
     scenes.push(Menu);
-    console.log(scenes);
 
     //game config
     const CONFIG = {
@@ -18,7 +17,8 @@ App.prototype.start = function(){
         width: 640,
         height: 360,
         scene: scenes,
-        pixelArt: true
+        pixelArt: true,
+        backgroundColor: '#33ccff'
     };
 
     //Create game app
