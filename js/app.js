@@ -25,11 +25,12 @@ App.prototype.start = function(){
     let game = new Phaser.Game(CONFIG);
 
     //Global configuration accessible in the whole game
+    game.URL = '';
     game.CONFIG = {
         width: CONFIG.width,
         height: CONFIG.height,
         centerX : Math.round(0.5 * CONFIG.width),
-        centerY : Math.round(0.5 * CONFIG.height)
+        centerY : Math.round(0.5 * CONFIG.height),
         // tile (size in pixel of every individual tiles
     };
 

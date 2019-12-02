@@ -4,6 +4,7 @@ class Menu extends Phaser.Scene{
     }
 
     init(){
+        this.URL = this.sys.game.URL;
         this.CONFIG = this.sys.game.CONFIG;
     }
 

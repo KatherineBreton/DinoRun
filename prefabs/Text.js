@@ -32,7 +32,7 @@ class Text{
         }
     }
 
-    //Be able to return an objet or a number depending on what we need
+    //Be able to set an objet or a number depending on what we need
     initOrigin(origin){
         if(typeof origin === 'number'){
             return{
@@ -54,8 +54,8 @@ class Text{
         let obj = this.ctx.add.bitmapText(
             this.x,
             this.y,
-            this.style.fontFamily,
             this.text,
+            this.style.fontFamily,
             this.style.fontSize,
             this.style.align
         );

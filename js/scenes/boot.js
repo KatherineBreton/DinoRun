@@ -1,3 +1,4 @@
+//Start the whole scene
 class Boot extends Phaser.Scene{
     constructor() {
         super({ key: 'Boot', active: true });
