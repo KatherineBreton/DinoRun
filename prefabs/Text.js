@@ -16,8 +16,8 @@ class Text{
 
     initStyle(key){
         let style = {
-            fontFamily: "arial",
-            // fontFamily: "clickPixel",
+            // fontFamily: "arial",
+            fontFamily: "clickPixel",
             fontSize: 16,
             color: '0xFFFFFF',
             align: 'center'
@@ -59,11 +59,9 @@ class Text{
             this.text,
             this.style.fontFamily,
             this.style.fontSize,
-            this.style.align,
-            // console.log(this)
+            this.style.align
         );
         // console.log(obj);
-        obj.setStyle(this.style.fontSize);
 
         obj.setOrigin(this.origin.x, this.origin.y);
         return obj;

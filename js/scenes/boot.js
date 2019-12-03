@@ -10,7 +10,7 @@ class Boot extends Phaser.Scene{
 
     preload(){
         this.load.setPath(this.URL + 'assets/font');
-        this.load.bitmapFont('clickPixel', 'click.png', 'click.ttf');
+        this.load.bitmapFont('clickPixel', 'click.png', 'click.xml');
     }
 
     create(){
