@@ -19,36 +19,57 @@ class Preload extends Phaser.Scene{
     }
 
     create(){
-        //When everything is done, redirect to menu
+        //When everything is done loading, redirect to menu
         // this.scene.start('Menu');
     }
 
     createLoadingBar(){
     //    Title
-        let console = new Text();
-        console.log(console);
         this.title = new Text(
             this,
             this.CONFIG.centerX,
             75,
             'Loading Game',
-            'preload',
+            'title',
             0.5
         );
-    //    Progress Text
+
+        //    Progress Text
         this.txt_progress = new Text(
             this,
-            this.CONFIG.centerX,
-            this.CONFIG.centerY - 5,
+            this.CONFIG.centerX -5,
+            this.CONFIG.centerY,
             'Loading...',
             'preload',
             { x: 0.5, y: 1 }
         );
-    //    Bar
+
+    //    Progress Bar
+        let x = 80;
+        let y = this.CONFIG.centerY + 25;
+
+        this.progress = this.add.graphics({ x: x, y: y });
+        this.border = this.add.graphics({ x: x, y: y });
+
+        //progress callback
         this.load.on('progress', this.onProgress, this);
     }
 
     onProgress(value){
+        //width of the progress bar
+        let w = this.CONFIG.width - 2 * this.progress.x;
+        let h = 18;
+
+        //Progress bar style
+        this.progress.clear();
+        this.progress.fillStyle('0xFFFFFF', 1);
+        this.progress.fillRect(0, 0, w * value, h);
+
+        //Border of the progress bar
+        this.border.clear();
+        this.border.lineStyle(2, '0x4D6592', 1);
+        this.border.strokeRect(0, 0, w * value, h);
+
         this.txt_progress.setText(Math.round(value * 100) + '%');
         console.log(this.txt_progress.text);
     }

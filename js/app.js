@@ -18,7 +18,7 @@ App.prototype.start = function(){
         height: 360,
         scene: scenes,
         pixelArt: true,
-        backgroundColor: '#33ccff'
+        backgroundColor: '0x33ccff'
     };
 
     //Create game app

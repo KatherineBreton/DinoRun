@@ -16,23 +16,25 @@ class Text{
 
     initStyle(key){
         let style = {
-            fontFamily: 'Arial',
+            fontFamily: "arial",
+            // fontFamily: "clickPixel",
             fontSize: 16,
-            color: '#000000',
+            color: '0xFFFFFF',
             align: 'center'
         };
 
-        switch(key.toLowerCase()){
+        switch(key){
             case 'title':
-                style.fontSize = 32;
+                style.fontSize = '32px';
                 break;
             case 'preload':
-                style.fontSize = 24;
+                style.fontSize = '24px';
                 break;
         }
+        return style;
     }
 
-    //Be able to set an objet or a number depending on what we need
+    //Be able to set an object or a number depending on what we need
     initOrigin(origin){
         if(typeof origin === 'number'){
             return{
@@ -51,14 +53,17 @@ class Text{
 
     //Text object
     createText(){
-        let obj = this.ctx.add.bitmapText(
+        let obj = this.ctx.add.text(
             this.x,
             this.y,
             this.text,
             this.style.fontFamily,
             this.style.fontSize,
-            this.style.align
+            this.style.align,
+            // console.log(this)
         );
+        // console.log(obj);
+        obj.setStyle(this.style.fontSize);
 
         obj.setOrigin(this.origin.x, this.origin.y);
         return obj;
