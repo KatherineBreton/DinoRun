@@ -29,21 +29,23 @@ class Preload extends Phaser.Scene{
 
     createLoadingBar(){
         //    Title
+        // let title = this.add.bitmapText(this.CONFIG.centerX, 75, 'clickPixel', 'Loading Game', 34, 0.5);
         this.title = new Text(
             this,
             this.CONFIG.centerX,
             75,
-            'Loading Game',
+            'Chargement du jeu',
             'title',
             0.5
         );
 
         //    Progress Text
+        // let txt_progress = this.add.bitmapText(this.CONFIG.centerX - 5, this.CONFIG.centerY, 'clickPixel', 'Loading...', 26, 0.5);
         this.txt_progress = new Text(
             this,
             this.CONFIG.centerX -5,
             this.CONFIG.centerY,
-            'Loading...',
+            'Chargement...',
             'preload',
             { x: 0.5, y: 1 }
         );

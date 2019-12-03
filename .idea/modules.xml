@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/DinoRun.iml" filepath="$PROJECT_DIR$/.idea/DinoRun.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../EndlessRunner/.idea/EndlessRunner.iml" filepath="$PROJECT_DIR$/../EndlessRunner/.idea/EndlessRunner.iml" />
     </modules>
   </component>
 </project>

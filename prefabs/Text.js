@@ -30,6 +30,9 @@ class Text{
             case 'preload':
                 style.fontSize = '24px';
                 break;
+            case 'standard':
+                style.fontSize = '20px';
+                break;
         }
         return style;
     }
@@ -59,9 +62,13 @@ class Text{
             this.text,
             this.style.fontFamily,
             this.style.fontSize,
-            this.style.align
+            this.style.align,
         );
         // console.log(obj);
+        // console.log(this.ctx);
+        // obj.setText([
+        //     this.text,
+        // ]);
 
         obj.setOrigin(this.origin.x, this.origin.y);
         return obj;
