@@ -8,6 +8,7 @@ App.prototype.start = function(){
     scenes.push(Boot);
     scenes.push(Preload);
     scenes.push(Menu);
+    scenes.push(Play);
 
     //game config
     const CONFIG = {

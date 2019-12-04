@@ -25,13 +25,13 @@ class Text{
 
         switch(key){
             case 'title':
-                style.fontSize = '32px';
+                style.fontSize = 32;
                 break;
             case 'preload':
-                style.fontSize = '24px';
+                style.fontSize = 24;
                 break;
             case 'standard':
-                style.fontSize = '20px';
+                style.fontSize = 20;
                 break;
         }
         return style;
@@ -56,19 +56,14 @@ class Text{
 
     //Text object
     createText(){
-        let obj = this.ctx.add.text(
+        let obj = this.ctx.add.bitmapText(
             this.x,
             this.y,
-            this.text,
             this.style.fontFamily,
+            this.text,
             this.style.fontSize,
-            this.style.align,
+            this.style.align
         );
-        // console.log(obj);
-        // console.log(this.ctx);
-        // obj.setText([
-        //     this.text,
-        // ]);
 
         obj.setOrigin(this.origin.x, this.origin.y);
         return obj;

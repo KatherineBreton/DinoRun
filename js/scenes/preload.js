@@ -15,7 +15,8 @@ class Preload extends Phaser.Scene{
         //path
         this.load.setPath(this.URL + 'assets/img');
         //files
-        this.load.spritesheet('dude', 'dude.png', { frameWidth: 32, frameHeight: 48 })
+        this.load.image('player', 'player.png');
+        this.load.image('platform', 'platform.png');
     }
 
     create(){
@@ -29,7 +30,6 @@ class Preload extends Phaser.Scene{
 
     createLoadingBar(){
         //    Title
-        // let title = this.add.bitmapText(this.CONFIG.centerX, 75, 'clickPixel', 'Loading Game', 34, 0.5);
         this.title = new Text(
             this,
             this.CONFIG.centerX,
