@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/DinoRun.iml" filepath="$PROJECT_DIR$/.idea/DinoRun.iml" />
       <module fileurl="file://$PROJECT_DIR$/../EndlessRunner/.idea/EndlessRunner.iml" filepath="$PROJECT_DIR$/../EndlessRunner/.idea/EndlessRunner.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../EndlessRunner1/.idea/EndlessRunner1.iml" filepath="$PROJECT_DIR$/../EndlessRunner1/.idea/EndlessRunner1.iml" />
     </modules>
   </component>
 </project>

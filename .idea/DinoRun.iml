@@ -5,5 +5,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="EndlessRunner" />
+    <orderEntry type="module" module-name="EndlessRunner1" />
   </component>
 </module>

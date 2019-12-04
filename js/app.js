@@ -19,7 +19,10 @@ App.prototype.start = function(){
         height: 360,
         scene: scenes,
         pixelArt: true,
-        backgroundColor: '0x33ccff'
+        backgroundColor: '0x33ccff',
+        physics:{
+            default : 'arcade'
+        }
     };
 
     //Create game app
@@ -33,6 +36,15 @@ App.prototype.start = function(){
         centerX : Math.round(0.5 * CONFIG.width),
         centerY : Math.round(0.5 * CONFIG.height),
         // tile (size in pixel of every individual tiles
+    };
+    game.OPTIONS = {
+        platformStartSpeed : 350,
+        spawnRange : [ 100, 350 ],
+        platformSizeRange: [ 50, 250 ],
+        playerGravity : 900,
+        jumpForce : 400,
+        playerStartPosition: 200,
+        jump: 1
     };
 
     //Sound

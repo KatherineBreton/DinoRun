@@ -40,7 +40,6 @@ class Preload extends Phaser.Scene{
         );
 
         //    Progress Text
-        // let txt_progress = this.add.bitmapText(this.CONFIG.centerX - 5, this.CONFIG.centerY, 'clickPixel', 'Loading...', 26, 0.5);
         this.txt_progress = new Text(
             this,
             this.CONFIG.centerX -5,
