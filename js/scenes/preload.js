@@ -17,12 +17,13 @@ class Preload extends Phaser.Scene{
         //files
         this.load.image('player', 'player.png');
         this.load.image('platform', 'platform.png');
+        this.load.image('meteor', 'meteor.png');
     }
 
     create(){
         //When everything is done loading, redirect to menu
         this.time.addEvent({
-            delay: 1000,
+            delay: 1500,
             callback: () => { this.scene.start('Menu'); },
             callbackScope: this
         });
@@ -76,6 +77,10 @@ class Preload extends Phaser.Scene{
         this.border.strokeRect(0, 0, w * value, h);
 
         this.txt_progress.setText(Math.round(value * 100) + '%');
-        console.log(this.txt_progress.text);
+        // console.log(this.txt_progress.text);
+    }
+
+    animate(){
+
     }
 }

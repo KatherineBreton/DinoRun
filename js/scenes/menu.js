@@ -9,7 +9,6 @@ class Menu extends Phaser.Scene{
     }
 
     create(){
-        console.log(this.CONFIG);
         //Game Title Dino Run
         this.title = new Text(
             this,

@@ -38,12 +38,13 @@ App.prototype.start = function(){
         // tile (size in pixel of every individual tiles
     };
     game.OPTIONS = {
-        platformStartSpeed : 350,
-        spawnRange : [ 100, 350 ],
+        platformStartSpeed : 250,
+        spawnRange : [ 50, 150 ], /* initially 100, 250 */
         platformSizeRange: [ 50, 250 ],
         playerGravity : 900,
         jumpForce : 400,
         playerStartPosition: 200,
+        meteorPosition: - 40,
         jump: 1
     };
 
