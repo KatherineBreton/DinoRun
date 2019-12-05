@@ -10,7 +10,6 @@ class Play extends Phaser.Scene{
 
         //Initialize different depths of the game's elements
         // this.DEPTH = {
-        //
         // };
 
         this.isGameOver = false;
@@ -36,6 +35,19 @@ class Play extends Phaser.Scene{
             }
         });
 
+        //
+        this.obstacleGroup = this.add.group({
+            removeCallback : function(obstacle){
+                obstacle.scene.obstaclePool.add(obstacle);
+            }
+        });
+
+        this.obstaclePool = this.add.group({
+            removeCallback : function(obstacle){
+                obstacle.scene.obstacleGroup.add(obstacle);
+            }
+        });
+
         //Adding the platform
         this.addPlatform(this.game.config.width, this.game.config.width / 2);
 
@@ -47,11 +59,20 @@ class Play extends Phaser.Scene{
         this.meteor = this.physics.add.sprite(this.OPTIONS.meteorPosition, 200, 'meteor');
         this.meteor.depth = 5;
 
-        //Collision between the player and the platform/meteor
+        //Adding the obstacles
+        this.obstacle = this.physics.add.sprite(400, this.game.config.height / 2, 'obstacle');
+        this.obstacle.setGravityY(400);
+
+        //Collision between the player and the platform/meteor/obstacle
         this.physics.add.collider(this.player, this.platformGroup);
         this.physics.add.overlap(this.player, this.meteor, function(player, meteor){
             this.isGameOver = true;
-        });
+            this.scene.pause();
+        }, null, this);
+        this.physics.add.collider(this.player, this.obstacle);
+
+        //Collision between the platforms and the obstacles
+        this.physics.add.collider(this.obstacle, this.platformGroup);
 
         //When the up key is down, the player jumps
         this.input.keyboard.on('keyup', this.jump, this);
@@ -61,7 +82,6 @@ class Play extends Phaser.Scene{
     addPlatform(platformWidth, posX){
         let platform;
         if(this.platformPool.getLength()){
-            console.log(this.game.config);
             platform = this.platformPool.getFirst();
             platform.x = posX;
             platform.active = true;
@@ -75,6 +95,13 @@ class Play extends Phaser.Scene{
         }
         platform.displayWidth = platformWidth;
         this.nextPlatformDistance = Phaser.Math.Between(this.OPTIONS.spawnRange[0], this.OPTIONS.spawnRange[1]);
+    }
+
+    addObstacle(posX){
+        let obstacle;
+        if(platform){
+
+        }
     }
 
     jump(){
@@ -106,6 +133,7 @@ class Play extends Phaser.Scene{
 
         this.player.x = this.OPTIONS.playerStartPosition;
 
+        //Recycling platforms
         let minDistance = this.game.config.width;
         this.platformGroup.getChildren().forEach(function(platform){
             let platformDistance = this.game.config.width - platform.x - platform.displayWidth / 2;
@@ -116,11 +144,18 @@ class Play extends Phaser.Scene{
             }
         }, this);
 
+        //Adding new platforms
         if(minDistance > this.nextPlatformDistance){
             let nextPlatformWidth = Phaser.Math.Between(this.OPTIONS.platformSizeRange[0], this.OPTIONS.platformSizeRange[1]);
             this.addPlatform(nextPlatformWidth, this.game.config.width + nextPlatformWidth / 2);
-            console.log(minDistance);
         }
 
+    //    Recycling obstacles
+        this.obstacleGroup.getChildren().forEach(function(obstacle){
+            if(obstacle.x < - obstacle.displayWidth / 2){
+                this.obstacleGroup.killAndHide(obstacle);
+                this.obstacleGroup.remove(obstacle);
+            }
+        }, this);
     }
 }
