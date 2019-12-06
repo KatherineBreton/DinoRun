@@ -48,6 +48,8 @@ class Play extends Phaser.Scene{
             }
         });
 
+        this.addedPlatforms = 0;
+
         //Adding the platform
         this.addPlatform(this.game.config.width, this.game.config.width / 2);
 
@@ -69,7 +71,7 @@ class Play extends Phaser.Scene{
             this.isGameOver = true;
             this.scene.pause();
         }, null, this);
-        this.physics.add.collider(this.player, this.obstacle);
+        // this.physics.add.collider(this.player, this.obstacle);
 
         //Collision between the platforms and the obstacles
         this.physics.add.collider(this.obstacle, this.platformGroup);
@@ -80,6 +82,7 @@ class Play extends Phaser.Scene{
     }
 
     addPlatform(platformWidth, posX){
+        this.addedPlatforms++;
         let platform;
         if(this.platformPool.getLength()){
             platform = this.platformPool.getFirst();
@@ -95,13 +98,15 @@ class Play extends Phaser.Scene{
         }
         platform.displayWidth = platformWidth;
         this.nextPlatformDistance = Phaser.Math.Between(this.OPTIONS.spawnRange[0], this.OPTIONS.spawnRange[1]);
-    }
+        if(this.addedPlatforms > 1){
+            let obstacle = this.physics.add.sprite(posX - platformWidth / 2 + Phaser.Math.Between(1, platformWidth), this.game.config.height * 0.30, 'obstacle');
 
-    addObstacle(posX){
-        let obstacle;
-        if(platform){
-
+            obstacle.setGravityY(400);
+            // this.physics.add.collider(this.player, obstacle);
+            this.physics.add.collider(obstacle, platform);
+            this.obstacleGroup.add(obstacle);
         }
+
     }
 
     jump(){
