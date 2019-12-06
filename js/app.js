@@ -39,8 +39,8 @@ App.prototype.start = function(){
     };
     game.OPTIONS = {
         platformStartSpeed : 250,
-        spawnRange : [ 200, 200 ], /* initially 100, 250 */
-        platformSizeRange: [ 500, 500 ], /* initially 50, 250 */
+        spawnRange : 200, /* initially 100, 250 */
+        platformSizeRange: 500, /* initially 50, 250 */
         playerGravity : 900,
         jumpForce : 400,
         playerStartPosition: 200,
