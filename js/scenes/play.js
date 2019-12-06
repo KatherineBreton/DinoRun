@@ -56,6 +56,9 @@ class Play extends Phaser.Scene{
         //Adding the player
         this.player = this.physics.add.sprite(this.OPTIONS.playerStartPosition, this.game.config.height / 2, 'player');
         this.player.setGravityY(this.OPTIONS.playerGravity);
+        this.player.setBounce(0.2);
+        this.player.setCollideWorldBounds(true);
+        //this.player.body.setEnable(true);
 
         //Adding the meteor
         this.meteor = this.physics.add.sprite(this.OPTIONS.meteorPosition, 200, 'meteor');
@@ -63,6 +66,7 @@ class Play extends Phaser.Scene{
 
         //Collision between the player and the platform/meteor/obstacle
         this.physics.add.collider(this.player, this.platformGroup);
+        this.physics.add.collider(this.player, this.obstacleGroup);
         this.physics.add.overlap(this.player, this.meteor, function(player, meteor){
             this.isGameOver = true;
             this.scene.pause();
@@ -73,7 +77,7 @@ class Play extends Phaser.Scene{
     }
 
     addPlatform(platformWidth, posX){
-        this.addedPlatforms++;
+        /*this.addedPlatforms++;
         let platform;
         if(this.platformPool.getLength()){
             platform = this.platformPool.getFirst();
@@ -89,14 +93,18 @@ class Play extends Phaser.Scene{
         }
         platform.displayWidth = platformWidth;
         this.nextPlatformDistance = this.OPTIONS.spawnRange;
-        if(this.addedPlatforms > 1){
+        if(this.addedPlatforms > 1){*/
             let obstacle = this.physics.add.sprite(posX - platformWidth / 2 + Phaser.Math.Between(1, platformWidth), this.game.config.height * 0.30, 'obstacle');
+            obstacle.body.blocked.left = true;
+            console.log(obstacle)
             obstacle.setGravityY(400);
+            obstacle.setImmovable(true)
+            obstacle.setCollideWorldBounds(true)
             // this.physics.add.collider(this.player, obstacle);
-            this.physics.add.collider(obstacle, platform);
+            /*this.physics.add.collider(obstacle, platform);*/
             this.physics.add.collider(obstacle, this.player);
             this.obstacleGroup.add(obstacle);
-        }
+        /*}*/
     }
 
     jump(){
@@ -110,40 +118,23 @@ class Play extends Phaser.Scene{
     }
 
     update(){
-        if(this.player.y > this.game.config.height){
-            this.isGameOver = true;
-            this.scene.pause();
+        let cursors = this.input.keyboard.createCursorKeys();
+
+        if (cursors.left.isDown)
+        {
+            this.player.setVelocityX(-160);
         }
-
-        //GameOver message
-        if(this.isGameOver){
-            this.gameOverMessage = new Text(
-                this,
-                this.CONFIG.centerX,
-                this.CONFIG.centerY,
-                'Game Over',
-                'title'
-            );
+        else if (cursors.right.isDown)
+        {
+            this.player.setVelocityX(160);
         }
-
-        this.player.x = this.OPTIONS.playerStartPosition;
-        this.physics.add.collider(this.obstacleGroup, this.player);
-
-        //Recycling platforms
-        let minDistance = this.game.config.width;
-        this.platformGroup.getChildren().forEach(function(platform){
-            let platformDistance = this.game.config.width - platform.x - platform.displayWidth / 2;
-            minDistance = Math.min(minDistance, platformDistance);
-            if(platform.x < - platform.displayWidth / 2){
-                this.platformGroup.killAndHide(platform);
-                this.platformGroup.remove(platform);
-            }
-        }, this);
-
-        //Adding new platforms
-        if(minDistance > this.nextPlatformDistance){
-            let nextPlatformWidth = this.OPTIONS.platformSizeRange;
-            this.addPlatform(nextPlatformWidth, this.game.config.width + nextPlatformWidth / 2);
+        else if (cursors.up.isDown)
+        {
+            this.player.setVelocityY(-260);
+        }
+        else
+        {
+            this.player.setVelocityX(0);
         }
 
     //    Recycling obstacles
