@@ -21,7 +21,8 @@ App.prototype.start = function(){
         pixelArt: true,
         backgroundColor: '0x33ccff',
         physics:{
-            default : 'arcade'
+            default : 'arcade',
+            arcade: {debug:true}
         }
     };
 

@@ -14,13 +14,15 @@ class Play extends Phaser.Scene{
 
         this.isGameOver = false;
         this.playerJumps = 0;
+        this.startTime = new Date();
+        this.playerPosition = this.OPTIONS.playerStartPosition;
     }
 
-    create(){
+    create() {
         //Group with all active platforms
         this.platformGroup = this.add.group({
             //Once a platform is removed, it's added to the pool
-            removeCallback: function(platform){
+            removeCallback: function (platform) {
                 platform.scene.platformPool.add(platform)
             }
         });
@@ -30,20 +32,20 @@ class Play extends Phaser.Scene{
         // will create and keep on hand for those situations where creating each instance is expensive
         this.platformPool = this.add.group({
             // once a platform is removed from the pool, it's added to the active platforms group
-            removeCallback: function(platform){
+            removeCallback: function (platform) {
                 platform.scene.platformGroup.add(platform)
             }
         });
 
         //
         this.obstacleGroup = this.add.group({
-            removeCallback : function(obstacle){
+            removeCallback: function (obstacle) {
                 obstacle.scene.obstaclePool.add(obstacle);
             }
         });
 
         this.obstaclePool = this.add.group({
-            removeCallback : function(obstacle){
+            removeCallback: function (obstacle) {
                 obstacle.scene.obstacleGroup.add(obstacle);
             }
         });
@@ -63,7 +65,7 @@ class Play extends Phaser.Scene{
 
         //Collision between the player and the platform/meteor/obstacle
         this.physics.add.collider(this.player, this.platformGroup);
-        this.physics.add.overlap(this.player, this.meteor, function(player, meteor){
+        this.physics.add.overlap(this.player, this.meteor, function (player, meteor) {
             this.isGameOver = true;
             this.scene.pause();
         }, null, this);
@@ -90,13 +92,18 @@ class Play extends Phaser.Scene{
         platform.displayWidth = platformWidth;
         this.nextPlatformDistance = this.OPTIONS.spawnRange;
         if(this.addedPlatforms > 1){
-            let obstacle = this.physics.add.sprite(posX - platformWidth / 2 + Phaser.Math.Between(1, platformWidth), this.game.config.height * 0.30, 'obstacle');
-            obstacle.setGravityY(400);
-            // this.physics.add.collider(this.player, obstacle);
-            this.physics.add.collider(obstacle, platform);
-            this.physics.add.collider(obstacle, this.player);
-            this.obstacleGroup.add(obstacle);
+            this.obstacle = this.physics.add.sprite(posX - platformWidth / 2 + Phaser.Math.Between(1, platformWidth), this.game.config.height * 0.30, 'obstacle');
+            this.obstacle.setGravityY(400);
+            this.physics.add.collider(this.obstacle, platform);
+            this.physics.add.collider(this.player, this.obstacle, () => {
+                this.obstacleCollide(platform);
+            }, null, this);
+            this.obstacleGroup.add(this.obstacle);
         }
+    }
+
+    obstacleCollide(){
+        this.playerPosition = this.playerPosition - 25;
     }
 
     jump(){
@@ -109,7 +116,27 @@ class Play extends Phaser.Scene{
         }
     }
 
+    getScore(score){
+        new Text(
+            this,
+            this.CONFIG.centerX + 180,
+            30,
+            'Score : ' + score,
+            'title'
+        );
+    }
+
+    getTime(){
+        this.currentTime = new Date();
+        let timeDifference = this.currentTime.getTime() - this.startTime.getTime();
+        let time = Math.abs(timeDifference / 1000);
+        return time;
+    }
+
     update(){
+        //this.time.addEvent({ delay: 1000, callback: this.addScore(this.getTime()), callbackScope: this, loop: true });
+        // this.getScore(this.getTime());
+
         if(this.player.y > this.game.config.height){
             this.isGameOver = true;
             this.scene.pause();
@@ -126,8 +153,7 @@ class Play extends Phaser.Scene{
             );
         }
 
-        this.player.x = this.OPTIONS.playerStartPosition;
-        this.physics.add.collider(this.obstacleGroup, this.player);
+        this.player.x = this.playerPosition;
 
         //Recycling platforms
         let minDistance = this.game.config.width;
@@ -145,6 +171,25 @@ class Play extends Phaser.Scene{
             let nextPlatformWidth = this.OPTIONS.platformSizeRange;
             this.addPlatform(nextPlatformWidth, this.game.config.width + nextPlatformWidth / 2);
         }
+
+        // let cursors = this.input.keyboard.createCursorKeys();
+        //
+        // if (cursors.left.isDown)
+        // {
+        //     this.player.setVelocityX(-160);
+        // }
+        // else if (cursors.right.isDown)
+        // {
+        //     this.player.setVelocityX(160);
+        // }
+        // else if (cursors.up.isDown)
+        // {
+        //     this.player.setVelocityY(-260);
+        // }
+        // else
+        // {
+        //     this.player.setVelocityX(0);
+        // }
 
     //    Recycling obstacles
     //     this.obstacleGroup.getChildren().forEach(function(obstacle){
