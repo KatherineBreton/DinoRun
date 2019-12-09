@@ -24,7 +24,7 @@ class Preload extends Phaser.Scene{
     create(){
         //When everything is done loading, redirect to menu
         this.time.addEvent({
-            delay: 1500,
+            delay: 1000,
             callback: () => { this.scene.start('Menu'); },
             callbackScope: this
         });

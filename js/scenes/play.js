@@ -7,15 +7,11 @@ class Play extends Phaser.Scene{
         this.URL = this.sys.game.URL;
         this.CONFIG = this.sys.game.CONFIG;
         this.OPTIONS = this.sys.game.OPTIONS;
-
-        //Initialize different depths of the game's elements
-        // this.DEPTH = {
-        // };
-
         this.isGameOver = false;
         this.playerJumps = 0;
         this.startTime = new Date();
         this.playerPosition = this.OPTIONS.playerStartPosition;
+        this.platformSpeed = this.OPTIONS.platformStartSpeed;
     }
 
     create() {
@@ -37,7 +33,6 @@ class Play extends Phaser.Scene{
             }
         });
 
-        //
         this.obstacleGroup = this.add.group({
             removeCallback: function (obstacle) {
                 obstacle.scene.obstaclePool.add(obstacle);
@@ -74,6 +69,10 @@ class Play extends Phaser.Scene{
         this.input.on("pointerdown", this.jump, this);
     }
 
+    increaseSpeed(){
+        this.platformSpeed = this.platformSpeed + 5 / 100;
+    }
+
     addPlatform(platformWidth, posX){
         this.addedPlatforms++;
         let platform;
@@ -91,19 +90,36 @@ class Play extends Phaser.Scene{
         }
         platform.displayWidth = platformWidth;
         this.nextPlatformDistance = this.OPTIONS.spawnRange;
+        let obstacle;
         if(this.addedPlatforms > 1){
-            this.obstacle = this.physics.add.sprite(posX - platformWidth / 2 + Phaser.Math.Between(1, platformWidth), this.game.config.height * 0.30, 'obstacle');
-            this.obstacle.setGravityY(400);
-            this.physics.add.collider(this.obstacle, platform);
-            this.physics.add.collider(this.player, this.obstacle, () => {
-                this.obstacleCollide(platform);
-            }, null, this);
-            this.obstacleGroup.add(this.obstacle);
+            if(this.obstaclePool.getLength()){
+                obstacle = this.obstaclePool.getFirst();
+                obstacle.x = posX;
+                obstacle.active = true;
+                obstacle.visible = true;
+                this.obstaclePool.remove(obstacle);
+            }else{
+                obstacle = this.physics.add.sprite(posX - platformWidth / 2 + Phaser.Math.Between(1, platformWidth), this.game.config.height * 0.30, 'obstacle');
+                obstacle.setGravityY(400);
+                this.physics.add.collider(obstacle, platform);
+                this.physics.add.collider(this.player, obstacle, () => {
+                    this.obstacleCollide();
+                }, null, this);
+                this.obstacleGroup.add(obstacle);
+            }
         }
+        // console.log(this.obstaclePool);
+        // console.log(this.obstacleGroup);
     }
 
+    //When the player touches an obstacle
     obstacleCollide(){
-        this.playerPosition = this.playerPosition - 25;
+        this.playerPosition = this.playerPosition - 3;
+    }
+
+    //When the player gets a piece of meat
+    meatCollide(){
+        this.playerPosition = this.playerPosition + 3;
     }
 
     jump(){
@@ -134,8 +150,8 @@ class Play extends Phaser.Scene{
     }
 
     update(){
-        //this.time.addEvent({ delay: 1000, callback: this.addScore(this.getTime()), callbackScope: this, loop: true });
-        // this.getScore(this.getTime());
+        // this.getScore(this.getTime().toString().substr(0, 1));
+        this.getScore(this.getTime().toString().substr(0, 1));
 
         if(this.player.y > this.game.config.height){
             this.isGameOver = true;
@@ -172,31 +188,12 @@ class Play extends Phaser.Scene{
             this.addPlatform(nextPlatformWidth, this.game.config.width + nextPlatformWidth / 2);
         }
 
-        // let cursors = this.input.keyboard.createCursorKeys();
-        //
-        // if (cursors.left.isDown)
-        // {
-        //     this.player.setVelocityX(-160);
-        // }
-        // else if (cursors.right.isDown)
-        // {
-        //     this.player.setVelocityX(160);
-        // }
-        // else if (cursors.up.isDown)
-        // {
-        //     this.player.setVelocityY(-260);
-        // }
-        // else
-        // {
-        //     this.player.setVelocityX(0);
-        // }
-
-    //    Recycling obstacles
-    //     this.obstacleGroup.getChildren().forEach(function(obstacle){
-    //         if(obstacle < - obstacle / 2){
-    //             this.obstacleGroup.killAndHide(obstacle);
-    //             this.obstacleGroup.remove(obstacle);
-    //         }
-    //     }, this);
+       // Recycling obstacles
+        this.obstacleGroup.getChildren().forEach(function(obstacle){
+            if(obstacle < - obstacle / 2){
+                this.obstacleGroup.killAndHide(obstacle);
+                this.obstacleGroup.remove(obstacle);
+            }
+        }, this);
     }
 }

@@ -22,7 +22,7 @@ App.prototype.start = function(){
         backgroundColor: '0x33ccff',
         physics:{
             default : 'arcade',
-            arcade: {debug:true}
+            // arcade: {debug:true}
         }
     };
 
