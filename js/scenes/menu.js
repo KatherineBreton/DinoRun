@@ -10,13 +10,15 @@ class Menu extends Phaser.Scene{
 
     create(){
         //Game Title Dino Run
-        this.title = new Text(
+        /*this.title = new Text(
             this,
             this.CONFIG.centerX,
             75,
             'Dino Run',
             'title',
-        );
+        );*/
+
+        this.add.image (400, 250, 'logo');
 
         //Click to play
         this.text = new Text(

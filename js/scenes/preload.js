@@ -15,12 +15,17 @@ class Preload extends Phaser.Scene{
         //path
         this.load.setPath(this.URL + 'assets/img');
         //files
-        this.load.image('player', 'player.png');
+        this.load.image('player', 'dino.png');
         this.load.image('platform', 'platform.png');
         this.load.image('meteor', 'meteor.png');
         this.load.image('obstacle', 'obstacle.png');
+        this.load.image('decor', 'background-apocalypse-final.jpg');
+        this.load.image('gameover', 'gameover.png', { frameWidth: 32, frameHeight: 48 });
+        this.load.image('logo', 'logo.png');
+        this.load.image('viande', 'steak.png');
     }
 
+    
     create(){
         //When everything is done loading, redirect to menu
         this.time.addEvent({
@@ -31,6 +36,8 @@ class Preload extends Phaser.Scene{
     }
 
     createLoadingBar(){
+
+
         //    Title
         this.title = new Text(
             this,

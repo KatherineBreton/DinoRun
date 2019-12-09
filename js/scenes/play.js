@@ -17,6 +17,8 @@ class Play extends Phaser.Scene{
     }
 
     create(){
+
+        this.add.image(600, 450, 'decor'); 
         //Group with all active platforms
         this.platformGroup = this.add.group({
             //Once a platform is removed, it's added to the pool
@@ -56,7 +58,7 @@ class Play extends Phaser.Scene{
         this.player.setGravityY(this.OPTIONS.playerGravity);
 
         //Adding the meteor
-        this.meteor = this.physics.add.sprite(this.OPTIONS.meteorPosition, 200, 'meteor');
+        this.meteor = this.physics.add.sprite(this.OPTIONS.meteorPosition, 500, 'meteor');
         this.meteor.depth = 5;
 
         //Adding the obstacles
@@ -77,7 +79,25 @@ class Play extends Phaser.Scene{
         //When the up key is down, the player jumps
         this.input.keyboard.on('keyup', this.jump, this);
         // this.input.on("pointerdown", this.jump, this);
+
+        this.viande = this.physics.add.group({
+            key: 'viande',
+            repeat: 11,
+            setXY: { x: 12, y: 550, stepX: 70 }
+        });
+        
+        this.viande.children.iterate(function (child) {
+        
+            child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+        
+        });
+
+        this.physics.add.collider(this.viande, this.platformGroup);
+
+        
     }
+
+    
 
     addPlatform(platformWidth, posX){
         let platform;
@@ -113,8 +133,17 @@ class Play extends Phaser.Scene{
             this.playerJumps ++;
         }
     }
+    
+    collectViande()
+{
+    this.viande.disableBody(true, true);
+}
 
     update(){
+        
+        this.physics.add.overlap(this.player, this.viande);
+
+        
         if(this.player.y > this.game.config.height){
             this.isGameOver = true;
             this.scene.pause();
@@ -122,13 +151,9 @@ class Play extends Phaser.Scene{
 
         //GameOver message
         if(this.isGameOver){
-            this.gameOverMessage = new Text(
-                this,
-                this.CONFIG.centerX,
-                this.CONFIG.centerY,
-                'Game Over',
-                'title'
-            );
+            
+                this.add.image(600, 450, 'gameover');
+                
         }
 
         this.player.x = this.OPTIONS.playerStartPosition;
