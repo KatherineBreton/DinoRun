@@ -15,6 +15,14 @@ class Play extends Phaser.Scene{
     }
 
     create() {
+        this.score = new Text(
+            this,
+            this.CONFIG.centerX + 180,
+            30,
+            'Score : ',
+            'title'
+        );
+
         //Group with all active platforms
         this.platformGroup = this.add.group({
             //Once a platform is removed, it's added to the pool
@@ -133,7 +141,8 @@ class Play extends Phaser.Scene{
     }
 
     getScore(score){
-        new Text(
+        this.score.destroy();
+        this.score = new Text(
             this,
             this.CONFIG.centerX + 180,
             30,
