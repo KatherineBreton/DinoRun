@@ -73,12 +73,20 @@ class Play extends Phaser.Scene{
             this.scene.pause();
         }, null, this);
 
+        //Click with the mouse or use the keyboard to make the player jump
         this.input.keyboard.on('keyup', this.jump, this);
         this.input.on("pointerdown", this.jump, this);
+
+        this.time.addEvent({
+            delay: 3000,
+            loop: true,
+            callback: this.increaseSpeed()
+        });
     }
 
     increaseSpeed(){
-        this.platformSpeed = this.platformSpeed + 5 / 100;
+        console.log("hello");
+        // this.platformSpeed = this.platformSpeed * 0.1;
     }
 
     addPlatform(platformWidth, posX){
@@ -151,16 +159,24 @@ class Play extends Phaser.Scene{
         );
     }
 
+    //Get the time in seconds for the score
     getTime(){
         this.currentTime = new Date();
         let timeDifference = this.currentTime.getTime() - this.startTime.getTime();
         let time = Math.abs(timeDifference / 1000);
-        return time;
+        if(time < 10){
+            return time.toString().substr(0, 1);
+        }else if(time > 10 && time < 100){
+            return time.toString().substr(0, 2);
+        }else{
+            return time.toString().substr(0, 3)
+        }
+
     }
 
     update(){
         // this.getScore(this.getTime().toString().substr(0, 1));
-        this.getScore(this.getTime().toString().substr(0, 1));
+        this.getScore(this.getTime());
 
         if(this.player.y > this.game.config.height){
             this.isGameOver = true;
