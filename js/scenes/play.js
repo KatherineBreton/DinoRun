@@ -171,8 +171,8 @@ class Play extends Phaser.Scene{
     meatCollide(){
         if(this.lives < 3){
             if(this.lives === 2){
-                this.livesBar1 = this.add.image(30, 30, 'life');
-                this.livesBar1.setDepth(1);
+                this.livesBar = this.add.image(30, 30, 'life');
+                this.livesBar.setDepth(1);
                 this.lives++;
             }else if (this.lives === 1){
                 this.livesBar2 = this.add.image(30, 30, 'life2');
@@ -218,12 +218,26 @@ class Play extends Phaser.Scene{
     }
 
     update(){
-        this.debugText.setText("Lives : " + this.lives);
+        // this.debugText.setText("Lives : " + this.lives);
         this.getScore(this.getTime());
 
         if((this.player.y > this.game.config.height) || (this.lives === 0)){
+            if(this.lives === 3){
+                this.livesBar.destroy();
+                this.livesBar2.destroy();
+                this.livesBar3.destroy();
+            }else if (this.lives === 2){
+                this.livesBar2.destroy();
+                this.livesBar3.destroy();
+            }else{
+                this.livesBar3.destroy();
+            }
             this.isGameOver = true;
+            // this.scene.pause();
+            // this.input.on('pointerdown', () => this.scene.restart());
+            this.physics.pause();
             this.scene.pause();
+            this.input.on('pointerdown', () => this.scene.restart());
         }
 
         //GameOver message
