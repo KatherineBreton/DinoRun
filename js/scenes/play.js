@@ -16,6 +16,13 @@ class Play extends Phaser.Scene{
     }
 
     create() {
+        this.livesBar = this.add.image(30, 30, 'life1');
+        this.livesBar.setDepth(3);
+        this.livesBar2 = this.add.image(30, 30, 'life2');
+        this.livesBar2.setDepth(2);
+        this.livesBar3 = this.add.image(30, 30, 'life3');
+        this.livesBar3.setDepth(1);
+
         this.score = new Text(
             this,
             this.CONFIG.centerX + 180,
@@ -97,13 +104,13 @@ class Play extends Phaser.Scene{
         }else{
             if(this.addedPlatforms != 1) {
 
-                var randomIndex = Math.floor((Math.random() * this.OPTIONS.platformPools.length) );
+                let randomIndex = Math.floor((Math.random() * this.OPTIONS.platformPools.length) );
 
-                var platformPool = this.OPTIONS.platformPools[randomIndex];
+                let platformPool = this.OPTIONS.platformPools[randomIndex];
                 // this.debugText.setText("Pool : " + platformPool.name);
 
-                for(var i = 0; i < platformPool.platforms.length; i++) {
-                    var p = platformPool.platforms[i];
+                for(let i = 0; i < platformPool.platforms.length; i++) {
+                    let p = platformPool.platforms[i];
                     platform = this.physics.add.sprite(posX + p.posX, (this.game.config.height * 0.8) + p.posY, 'platform');
                     platform.setImmovable(true);
                     platform.setVelocityX(this.platformSpeed * -1);
@@ -130,11 +137,11 @@ class Play extends Phaser.Scene{
             obstacle.visible = true;
             this.obstaclePool.remove(obstacle);
         }else{
-            obstacle = this.physics.add.sprite(posX - platformWidth / 2 + Phaser.Math.Between(1, platformWidth), this.game.config.height * 0.30, 'obstacle');
+            obstacle = this.physics.add.sprite(posX - platformWidth / 2 + Phaser.Math.Between(1, platformWidth), 0, 'obstacle');
             obstacle.setGravityY(400);
 
-            for(var i = 0; i < this.platformGroup.getChildren().length; i++) {
-                var p =  this.platformGroup.getChildren()[i];
+            for(let i = 0; i < this.platformGroup.getChildren().length; i++) {
+                let p =  this.platformGroup.getChildren()[i];
                 this.physics.add.collider(obstacle, p);
             }
             this.physics.add.collider(this.player, obstacle, () => {
@@ -148,13 +155,30 @@ class Play extends Phaser.Scene{
 
     //When the player touches an obstacle
     obstacleCollide(){
-        this.lives--;
+        if(this.lives === 3){
+            this.livesBar.destroy();
+            this.lives--;
+        }else if (this.lives === 2){
+            this.livesBar2.destroy();
+            this.lives--;
+        }else{
+            this.livesBar3.destroy();
+            this.lives--;
+        }
     }
 
     //When the player gets a piece of meat
     meatCollide(){
         if(this.lives < 3){
-            this.lives++;
+            if(this.lives === 2){
+                this.livesBar1 = this.add.image(30, 30, 'life');
+                this.livesBar1.setDepth(1);
+                this.lives++;
+            }else if (this.lives === 1){
+                this.livesBar2 = this.add.image(30, 30, 'life2');
+                this.livesBar2.setDepth(2);
+                this.lives++;
+            }
         }
     }
 
@@ -191,7 +215,6 @@ class Play extends Phaser.Scene{
         }else{
             return time.toString().substr(0, 3)
         }
-
     }
 
     update(){
@@ -200,7 +223,6 @@ class Play extends Phaser.Scene{
 
         if((this.player.y > this.game.config.height) || (this.lives === 0)){
             this.isGameOver = true;
-            this.player.
             this.scene.pause();
         }
 
