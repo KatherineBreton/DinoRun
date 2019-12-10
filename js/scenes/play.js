@@ -12,6 +12,7 @@ class Play extends Phaser.Scene{
         this.startTime = new Date();
         this.playerPosition = this.OPTIONS.playerStartPosition;
         this.platformSpeed = this.OPTIONS.platformStartSpeed;
+        this.lives = this.OPTIONS.lives;
     }
 
     create() {
@@ -29,20 +30,12 @@ class Play extends Phaser.Scene{
 
         //Group with all active platforms
         this.platformGroup = this.add.group({
-            //Once a platform is removed, it's added to the pool
-            removeCallback: function (platform) {
-                platform.scene.platformPool.add(platform)
-            }
         });
 
         //Pool
         // Object pooling is a technique which stores a collection of a particular object that an application
         // will create and keep on hand for those situations where creating each instance is expensive
         this.platformPool = this.add.group({
-            // once a platform is removed from the pool, it's added to the active platforms group
-            removeCallback: function (platform) {
-                platform.scene.platformGroup.add(platform)
-            }
         });
 
         this.obstacleGroup = this.add.group({
@@ -52,9 +45,9 @@ class Play extends Phaser.Scene{
         });
 
         this.obstaclePool = this.add.group({
-            removeCallback: function (obstacle) {
+            /*removeCallback: function (obstacle) {
                 obstacle.scene.obstacleGroup.add(obstacle);
-            }
+            }*/
         });
 
         this.addedPlatforms = 0;
@@ -81,19 +74,18 @@ class Play extends Phaser.Scene{
         this.input.keyboard.on('keyup', this.jump, this);
         this.input.on("pointerdown", this.jump, this);
 
-        this.time.addEvent({
-            delay: 3000,
-            loop: true,
-            callback: this.increaseSpeed()
-        });
+        // this.time.addEvent({
+        //     delay: 3000,
+        //     loop: true,
+        //     callback: this.increaseSpeed()
+        // });
     }
 
-    increaseSpeed(){
+    // increaseSpeed(){
         // this.platformSpeed = this.platformSpeed * 2;
-    }
+    // }
 
     addPlatform(platformWidth, posX){
-        this.debugText.setText("debug: Posx: " + this.addedPlatforms);
         this.addedPlatforms++;
         let platform;
         if(this.platformPool.getLength()){
@@ -103,43 +95,67 @@ class Play extends Phaser.Scene{
             platform.visible = true;
             this.platformPool.remove(platform);
         }else{
-            platform = this.physics.add.sprite(posX, this.game.config.height * 0.8, 'platform');
-            platform.setImmovable(true);
-            platform.setVelocityX(this.platformSpeed * -1);
-            this.platformGroup.add(platform);
-        }
-        platform.displayWidth = platformWidth;
-        this.nextPlatformDistance = this.OPTIONS.spawnRange;
-        let obstacle;
-        if(this.addedPlatforms > 1){
-            if(this.obstaclePool.getLength()){
-                obstacle = this.obstaclePool.getFirst();
-                obstacle.x = posX;
-                obstacle.active = true;
-                obstacle.visible = true;
-                this.obstaclePool.remove(obstacle);
-            }else{
-                obstacle = this.physics.add.sprite(posX - platformWidth / 2 + Phaser.Math.Between(1, platformWidth), this.game.config.height * 0.30, 'obstacle');
-                obstacle.setGravityY(400);
-                this.physics.add.collider(obstacle, platform);
-                this.physics.add.collider(this.player, obstacle, () => {
-                    this.obstacleCollide();
-                }, null, this);
-                this.obstacleGroup.add(obstacle);
+            if(this.addedPlatforms != 1) {
+
+                var randomIndex = Math.floor((Math.random() * this.OPTIONS.platformPools.length) );
+
+                var platformPool = this.OPTIONS.platformPools[randomIndex];
+                // this.debugText.setText("Pool : " + platformPool.name);
+
+                for(var i = 0; i < platformPool.platforms.length; i++) {
+                    var p = platformPool.platforms[i];
+                    platform = this.physics.add.sprite(posX + p.posX, (this.game.config.height * 0.8) + p.posY, 'platform');
+                    platform.setImmovable(true);
+                    platform.setVelocityX(this.platformSpeed * -1);
+                    this.platformGroup.add(platform);
+                }
+                this.handleObstacle(platformWidth, posX);
+            }else {
+                platform = this.physics.add.sprite(posX, this.game.config.height * 0.8, 'platform');
+                platform.setImmovable(true);
+                platform.setVelocityX(this.platformSpeed * -1);
+                platform.displayWidth = platformWidth;
+                this.platformGroup.add(platform);
             }
         }
-        // console.log(this.obstaclePool);
-        // console.log(this.obstacleGroup);
+        this.nextPlatformDistance = this.OPTIONS.spawnRange;
+    }
+
+    handleObstacle(platformWidth, posX) {
+        let obstacle;
+        if(this.obstaclePool.getLength()){
+            obstacle = this.obstaclePool.getFirst();
+            obstacle.x = posX;
+            obstacle.active = true;
+            obstacle.visible = true;
+            this.obstaclePool.remove(obstacle);
+        }else{
+            obstacle = this.physics.add.sprite(posX - platformWidth / 2 + Phaser.Math.Between(1, platformWidth), this.game.config.height * 0.30, 'obstacle');
+            obstacle.setGravityY(400);
+
+            for(var i = 0; i < this.platformGroup.getChildren().length; i++) {
+                var p =  this.platformGroup.getChildren()[i];
+                this.physics.add.collider(obstacle, p);
+            }
+            this.physics.add.collider(this.player, obstacle, () => {
+                this.obstacleCollide();
+                this.obstaclePool.remove(obstacle);
+                obstacle.destroy();
+            }, null, this);
+            this.obstacleGroup.add(obstacle);
+        }
     }
 
     //When the player touches an obstacle
     obstacleCollide(){
-        this.playerPosition = this.playerPosition - 3;
+        this.lives--;
     }
 
     //When the player gets a piece of meat
     meatCollide(){
-        this.playerPosition = this.playerPosition + 3;
+        if(this.lives < 3){
+            this.lives++;
+        }
     }
 
     jump(){
@@ -179,11 +195,12 @@ class Play extends Phaser.Scene{
     }
 
     update(){
-        // this.getScore(this.getTime().toString().substr(0, 1));
+        this.debugText.setText("Lives : " + this.lives);
         this.getScore(this.getTime());
 
-        if(this.player.y > this.game.config.height){
+        if((this.player.y > this.game.config.height) || (this.lives === 0)){
             this.isGameOver = true;
+            this.player.
             this.scene.pause();
         }
 

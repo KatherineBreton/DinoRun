@@ -14,7 +14,7 @@ App.prototype.start = function(){
     const CONFIG = {
         type: Phaser.AUTO,
         parent: 'phaser-app',
-        title: 'Dino Run',
+        title: 'JuraPixel',
         width: 640,
         height: 360,
         scene: scenes,
@@ -39,8 +39,9 @@ App.prototype.start = function(){
         // tile (size in pixel of every individual tiles
     };
     game.OPTIONS = {
+        lives : 3,
         platformStartSpeed : 250,
-        spawnRange : 200, /* initially 100, 250 */
+        spawnRange : 0, /* initially 100, 250 */
         platformSizeRange:500, /* initially 50, 250 */
         playerGravity : 900,
         jumpForce : 400,
@@ -51,26 +52,98 @@ App.prototype.start = function(){
             {
                 name: 'pool1',
                 platforms: [
-                    {
-                        posX:0,
-                        posY:0,
-                        width: 200
-                    },
-                    {
-                        posX:250,
-                        posY:-30,
-                        width: 200
-                    },
-                    {
-                        posX:450,
-                        posY:30,
-                        width: 200
-                    },
-                    {
-                        posX: 700,
-                        posY: 0,
-                        width: 200
-                    }
+                    { posX: 0, posY: 0 },
+                    { posX: 180, posY: -30 },
+                    { posX: 450, posY: -30, },
+                    { posX: 570, posY: 0, },
+                    { posX: 660, posY: 40, },
+                    { posX: 810, posY: 0, },
+                    { posX: 930, posY: 0, }
+                ]
+            },
+            {
+                name: 'pool2',
+                platforms: [
+                    { posX: 0, posY: 0, },
+                    { posX: 150, posY: 30, },
+                    { posX: 270, posY: 30, },
+                    { posX: 440, posY: 0, },
+                    { posX: 620, posY: -30, },
+                    { posX: 690, posY: -30, },
+                    { posX: 970, posY: 0, },
+                    { posX: 1000, posY: 0, },
+                    { posX: 1300, posY: 0, }
+                ]
+            },
+            {
+                name: 'pool3',
+                platforms: [
+                    { posX: 0, posY: 0, },
+                    { posX: 180, posY: -40, },
+                    { posX: 260, posY: -40, },
+                    { posX: 520, posY: 0, },
+                    { posX: 690, posY: -40, },
+                    { posX: 900, posY: 0, },
+                    { posX: 1200, posY: 0, }
+                ]
+            },
+            {
+                name: 'pool4',
+                platforms: [
+                    { posX: 0, posY: 0, },
+                    { posX: 150, posY: 30, },
+                    { posX: 270, posY: 30, },
+                    { posX: 510, posY: 0, },
+                    { posX: 660, posY: -30, },
+                    { posX: 810, posY: 0, },
+                    { posX: 1030, posY: 0, },
+                    { posX: 1060, posY: 0, }
+                ]
+            },
+            {
+                name: 'pool5',
+                platforms: [
+                    { posX: 0, posY: 0, },
+                    { posX: 150, posY: -75, },
+                    { posX: 270, posY: -75, },
+                    { posX: 510, posY: -100, },
+                    { posX: 710, posY: -120, },
+                    { posX: 780, posY: -120, },
+                    { posX: 900, posY: -50, },
+                    { posX: 930, posY: -50, },
+                    { posX: 1030, posY: 0, },
+                    { posX: 1060, posY: 0, }
+                ]
+            },
+            {
+                name: 'pool6',
+                platforms: [
+                    { posX: 0, posY: 0, },
+                    { posX: 250, posY: -55, },
+                    { posX: 280, posY: -55, },
+                    { posX: 510, posY: -100, },
+                    { posX: 600, posY: -100, },
+                    { posX: 780, posY: -140, },
+                    { posX: 900, posY: -140, },
+                    { posX: 930, posY: -140, },
+                    { posX: 1130, posY: 0, },
+                    { posX: 1200, posY: 0, }
+                ]
+            },
+            {
+                name: 'pool7',
+                platforms: [
+                    { posX: 0, posY: 0, },
+                    { posX: 90, posY: 0, },
+                    { posX: 270, posY: -50, },
+                    { posX: 510, posY: -100, },
+                    { posX: 710, posY: -100, },
+                    { posX: 780, posY: -100, },
+                    { posX: 900, posY: -30, },
+                    { posX: 930, posY: -30, },
+                    { posX: 1160, posY: -50, },
+                    { posX: 1300, posY: 0, },
+                    { posX: 1360, posY: 0, }
                 ]
             }
         ]

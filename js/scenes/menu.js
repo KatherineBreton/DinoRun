@@ -14,7 +14,7 @@ class Menu extends Phaser.Scene{
             this,
             this.CONFIG.centerX,
             75,
-            'Dino Run',
+            'Jura Pixel',
             'title',
         );
 
