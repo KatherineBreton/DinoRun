@@ -22,7 +22,7 @@ App.prototype.start = function(){
         backgroundColor: '0x33ccff',
         physics:{
             default : 'arcade',
-            // arcade: {debug:true}
+            arcade: {debug:true}
         }
     };
 
@@ -41,12 +41,39 @@ App.prototype.start = function(){
     game.OPTIONS = {
         platformStartSpeed : 250,
         spawnRange : 200, /* initially 100, 250 */
-        platformSizeRange: 500, /* initially 50, 250 */
+        platformSizeRange:500, /* initially 50, 250 */
         playerGravity : 900,
         jumpForce : 400,
         playerStartPosition: 200,
         meteorPosition: - 40,
-        jump: 1
+        jump: 1,
+        platformPools: [
+            {
+                name: 'pool1',
+                platforms: [
+                    {
+                        posX:0,
+                        posY:0,
+                        width: 200
+                    },
+                    {
+                        posX:250,
+                        posY:-30,
+                        width: 200
+                    },
+                    {
+                        posX:450,
+                        posY:30,
+                        width: 200
+                    },
+                    {
+                        posX: 700,
+                        posY: 0,
+                        width: 200
+                    }
+                ]
+            }
+        ]
     };
 
     //Sound

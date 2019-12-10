@@ -23,6 +23,10 @@ class Play extends Phaser.Scene{
             'title'
         );
 
+       this.debugText =  this.add.text(this.CONFIG.centerX - 280, 320, 'debug:',{
+            fontSize: '20px', fill: 'black'
+        });
+
         //Group with all active platforms
         this.platformGroup = this.add.group({
             //Once a platform is removed, it's added to the pool
@@ -85,11 +89,11 @@ class Play extends Phaser.Scene{
     }
 
     increaseSpeed(){
-        console.log("hello");
-        // this.platformSpeed = this.platformSpeed * 0.1;
+        // this.platformSpeed = this.platformSpeed * 2;
     }
 
     addPlatform(platformWidth, posX){
+        this.debugText.setText("debug: Posx: " + this.addedPlatforms);
         this.addedPlatforms++;
         let platform;
         if(this.platformPool.getLength()){
@@ -101,7 +105,7 @@ class Play extends Phaser.Scene{
         }else{
             platform = this.physics.add.sprite(posX, this.game.config.height * 0.8, 'platform');
             platform.setImmovable(true);
-            platform.setVelocityX(this.OPTIONS.platformStartSpeed * -1);
+            platform.setVelocityX(this.platformSpeed * -1);
             this.platformGroup.add(platform);
         }
         platform.displayWidth = platformWidth;
