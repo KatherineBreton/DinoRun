@@ -47,7 +47,7 @@ App.prototype.start = function(){
         jumpForce : 400,
         playerStartPosition: 200,
         meteorPosition: - 40,
-        jump: 1,
+        jumps: 2,
         platformPools: [
             {
                 name: 'pool1',

@@ -18,7 +18,7 @@ class Preload extends Phaser.Scene{
         // this.load.image('player', 'player.png');
         this.load.spritesheet('player', 'dino.png', { frameWidth: 80, frameHeight: 60});
         this.load.image('platform', 'platform.png');
-        this.load.image('meteor', 'meteor.png');
+        this.load.spritesheet('meteor', 'meteors.png', { frameWidth: 230, frameHeight: 230 });
         this.load.image('obstacle', 'obstacle.png');
         this.load.image('life1', 'heart.png');
         this.load.image('life2', 'heart2.png');
@@ -97,6 +97,12 @@ class Preload extends Phaser.Scene{
             frames: this.anims.generateFrameNumbers('player', { start: 4, end: 4 }),
             frameRate: 12,
             repeat: 0
+        });
+        this.anims.create({
+            key: 'burn',
+            frames: this.anims.generateFrameNumbers('meteor', { start: 0, end: 4 }),
+            frameRate: 12,
+            repeat: -1
         });
 
 

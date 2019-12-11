@@ -224,6 +224,7 @@ class Play extends Phaser.Scene{
 
     update(){
         // this.player.anims.play('walk', true);
+        this.meteor.anims.play('burn', true);
 
         // this.debugText.setText("Lives : " + this.lives);
         this.getScore(this.getTime());
