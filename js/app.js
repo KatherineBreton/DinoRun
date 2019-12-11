@@ -20,7 +20,7 @@ App.prototype.start = function(){
         height: 360,
         scene: scenes,
         pixelArt: true,
-        backgroundColor: '0x33ccff',
+        backgroundColor: '0x000000', /*'0x33ccff'*/
         physics:{
             default : 'arcade',
             // arcade: {debug:true}
@@ -42,6 +42,7 @@ App.prototype.start = function(){
     game.OPTIONS = {
         lives : 3,
         platformStartSpeed : 250,
+        backgroundSpeed : 150,
         spawnRange : 0, /* initially 100, 250 */
         platformSizeRange:500, /* initially 50, 250 */
         playerGravity : 900,

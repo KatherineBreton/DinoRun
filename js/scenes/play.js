@@ -16,6 +16,8 @@ class Play extends Phaser.Scene{
     }
 
     create() {
+        this.background = this.add.image(320, 180, 'background');
+        console.log(this.CONFIG.centerX + this.OPTIONS.centerY);
         this.livesBar = this.add.image(140, 40, 'life1');
         this.livesBar.setDepth(4);
         this.livesBar2 = this.add.image(140, 40, 'life2');
