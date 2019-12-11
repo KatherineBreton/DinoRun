@@ -241,22 +241,26 @@ class Play extends Phaser.Scene{
                 this.livesBar3.destroy();
             }
             this.isGameOver = true;
-            // this.scene.pause();
             // this.input.on('pointerdown', () => this.scene.restart());
-            this.physics.pause();
-            this.scene.pause();
-            this.input.on('pointerdown', () => this.scene.restart());
         }
 
         //GameOver message
         if(this.isGameOver){
-            this.gameOverMessage = new Text(
-                this,
-                this.CONFIG.centerX,
-                this.CONFIG.centerY,
-                'Game Over',
-                'title'
-            );
+            this.physics.pause();
+            this.player.anims.stop();
+            this.meteor.anims.stop();
+            this.time.addEvent({
+                delay: 800,
+                callback: () => { this.scene.start('GameOver'); },
+                callbackScope: this
+            });
+            // this.gameOverMessage = new Text(
+            //     this,
+            //     this.CONFIG.centerX,
+            //     this.CONFIG.centerY,
+            //     'Game Over',
+            //     'title'
+            // );
         }
 
         this.player.x = this.playerPosition;

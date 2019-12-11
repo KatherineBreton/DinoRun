@@ -10,30 +10,26 @@ class Menu extends Phaser.Scene{
 
     create(){
         //Game Title Dino Run
-        this.title = new Text(
-            this,
-            this.CONFIG.centerX,
-            75,
-            'Jura Pixel',
-            'title',
-        );
+        this.logo = this.add.image(this.CONFIG.centerX, this.CONFIG.centerY, 'juraLogo');
+        // this.title = new Text(
+        //     this,
+        //     this.CONFIG.centerX,
+        //     75,
+        //     'Jura Pixel',
+        //     'title',
+        // );
 
-        //Click to play
-        this.text = new Text(
-            this,
-            this.CONFIG.centerX,
-            this.CONFIG.centerY,
-            'Cliquez pour jouer',
-            'standard'
-        );
+        // //Click to play
+        // this.text = new Text(
+        //     this,
+        //     this.CONFIG.centerX,
+        //     300,
+        //     'Cliquez pour jouer',
+        //     'standard'
+        // );
 
         this.createMouseInput();
         this.createKeyboardInput();
-
-        // let bitmap = this.add.bitmapText(250, 200, 'clickPixel', 'Dino Run', 38).setOrigin(0.5).setCenterAlign();
-        // bitmap.setText([
-        //     'Test bitmap'
-        // ]);
     }
 
     createMouseInput(){

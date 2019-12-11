@@ -9,6 +9,7 @@ App.prototype.start = function(){
     scenes.push(Preload);
     scenes.push(Menu);
     scenes.push(Play);
+    scenes.push(GameOver);
 
     //game config
     const CONFIG = {
@@ -22,7 +23,7 @@ App.prototype.start = function(){
         backgroundColor: '0x33ccff',
         physics:{
             default : 'arcade',
-            arcade: {debug:true}
+            // arcade: {debug:true}
         }
     };
 
