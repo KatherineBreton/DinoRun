@@ -21,9 +21,13 @@ class Preload extends Phaser.Scene{
         this.load.spritesheet('meteor', 'meteors.png', { frameWidth: 230, frameHeight: 230 });
         this.load.image('obstacle', 'obstacle1.png');
         this.load.image('gameOver', 'Game_Over.png');
-        this.load.image('life1', 'heart.png');
-        this.load.image('life2', 'heart2.png');
-        this.load.image('life3', 'heart3.png');
+        this.load.image('life1', 'life.png');
+        this.load.image('life2', 'life1.png');
+        this.load.image('life3', 'life2.png');
+        this.load.image('emptyLife', 'life3.png');
+
+        this.load.setPath(this.URL + 'assets/audio');
+        this.load.audio('gameMusic', 'gameMusic.mp3');
     }
 
     create(){

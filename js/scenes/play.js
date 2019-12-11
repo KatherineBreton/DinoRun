@@ -16,12 +16,13 @@ class Play extends Phaser.Scene{
     }
 
     create() {
-        this.livesBar = this.add.image(30, 30, 'life1');
+        this.livesBar = this.add.image(140, 40, 'life1');
         this.livesBar.setDepth(3);
-        this.livesBar2 = this.add.image(30, 30, 'life2');
+        this.livesBar2 = this.add.image(140, 40, 'life2');
         this.livesBar2.setDepth(2);
-        this.livesBar3 = this.add.image(30, 30, 'life3');
+        this.livesBar3 = this.add.image(140, 40, 'life3');
         this.livesBar3.setDepth(1);
+        this.livesBar3 = this.add.image(140, 40, 'emptyLife');
 
         this.score = new Text(
             this,
@@ -249,6 +250,7 @@ class Play extends Phaser.Scene{
             this.physics.pause();
             this.player.anims.stop();
             this.meteor.anims.stop();
+            // this.music.pause();
             this.time.addEvent({
                 delay: 800,
                 callback: () => { this.scene.start('GameOver'); },
