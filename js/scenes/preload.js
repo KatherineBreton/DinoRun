@@ -15,7 +15,8 @@ class Preload extends Phaser.Scene{
         //path
         this.load.setPath(this.URL + 'assets/img');
         //files
-        this.load.image('player', 'player.png');
+        // this.load.image('player', 'player.png');
+        this.load.spritesheet('player', 'dino.png', { frameWidth: 80, frameHeight: 60});
         this.load.image('platform', 'platform.png');
         this.load.image('meteor', 'meteor.png');
         this.load.image('obstacle', 'obstacle.png');
@@ -25,6 +26,7 @@ class Preload extends Phaser.Scene{
     }
 
     create(){
+        this.animate();
         //When everything is done loading, redirect to menu
         this.time.addEvent({
             delay: 1000,
@@ -84,6 +86,19 @@ class Preload extends Phaser.Scene{
     }
 
     animate(){
+        this.anims.create({
+            key: 'walk',
+            frames: this.anims.generateFrameNumbers('player', { start: 0, end: 3 }),
+            frameRate: 12,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'jump',
+            frames: this.anims.generateFrameNumbers('player', { start: 4, end: 4 }),
+            frameRate: 12,
+            repeat: -1
+        });
+
 
     }
 }

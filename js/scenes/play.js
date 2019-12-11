@@ -71,7 +71,11 @@ class Play extends Phaser.Scene{
         this.meteor.depth = 5;
 
         //Collision between the player and the platform/meteor/obstacle
-        this.physics.add.collider(this.player, this.platformGroup);
+        this.physics.add.collider(this.player, this.platformGroup, ()=> {
+            if(!this.player.anims.isPlaying){
+                this.player.anims.play('walk', true);
+            }
+        }, null, this);
         this.physics.add.overlap(this.player, this.meteor, function (player, meteor) {
             this.isGameOver = true;
             this.scene.pause();
@@ -190,6 +194,7 @@ class Play extends Phaser.Scene{
             this.player.setVelocityY(this.OPTIONS.jumpForce * -1);
             this.playerJumps ++;
         }
+        this.player.anims.play('jump', true);
     }
 
     getScore(score){
@@ -218,6 +223,8 @@ class Play extends Phaser.Scene{
     }
 
     update(){
+        // this.player.anims.play('walk', true);
+
         // this.debugText.setText("Lives : " + this.lives);
         this.getScore(this.getTime());
 
