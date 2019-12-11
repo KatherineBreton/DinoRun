@@ -25,6 +25,9 @@ class Play extends Phaser.Scene{
         this.livesBar4 = this.add.image(140, 40, 'emptyLife');
         this.livesBar4.setDepth(1);
 
+        this.music = this.sound.add('gameMusic', true);
+        this.music.play();
+
         this.score = new Text(
             this,
             this.CONFIG.centerX + 180,
@@ -160,7 +163,7 @@ class Play extends Phaser.Scene{
                 let p =  this.platformGroup.getChildren()[i];
                 this.physics.add.collider(obstacle, p);
             }
-            this.physics.add.collider(this.player, obstacle, () => {
+            this.physics.add.overlap(this.player, obstacle, () => {
                 this.obstacleCollide();
                 this.obstaclePool.remove(obstacle);
                 obstacle.destroy();
@@ -185,7 +188,7 @@ class Play extends Phaser.Scene{
                 let p =  this.platformGroup.getChildren()[i];
                 this.physics.add.collider(meat, p);
             }
-            this.physics.add.collider(this.player, meat, () => {
+            this.physics.add.overlap(this.player, meat, () => {
                 this.meatCollide();
                 this.meatPool.remove(meat);
                 meat.destroy();
@@ -263,7 +266,7 @@ class Play extends Phaser.Scene{
         // this.player.anims.play('walk', true);
         this.meteor.anims.play('burn', true);
 
-        this.debugText.setText("Lives : " + this.lives);
+        // this.debugText.setText("Lives : " + this.lives);
         this.getScore(this.getTime());
 
         if((this.player.y > this.game.config.height) || (this.lives === 0)){
@@ -286,7 +289,7 @@ class Play extends Phaser.Scene{
             this.physics.pause();
             this.player.anims.stop();
             this.meteor.anims.stop();
-            // this.music.pause();
+            this.music.pause();
             this.time.addEvent({
                 delay: 800,
                 callback: () => { this.scene.start('GameOver'); },

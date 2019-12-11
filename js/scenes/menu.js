@@ -11,8 +11,6 @@ class Menu extends Phaser.Scene{
     create(){
         //Game Title Dino Run
         this.logo = this.add.image(this.CONFIG.centerX, this.CONFIG.centerY, 'juraLogo');
-        this.music = this.sound.add('gameMusic', true);
-        this.music.play();
         // this.title = new Text(
         //     this,
         //     this.CONFIG.centerX,

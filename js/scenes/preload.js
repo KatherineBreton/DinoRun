@@ -29,6 +29,7 @@ class Preload extends Phaser.Scene{
 
         this.load.setPath(this.URL + 'assets/audio');
         this.load.audio('gameMusic', 'gameMusic.mp3');
+        this.load.audio('gameOverMusic', 'gameOverMusic.mp3');
     }
 
     create(){
