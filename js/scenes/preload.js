@@ -25,6 +25,7 @@ class Preload extends Phaser.Scene{
         this.load.image('life2', 'life1.png');
         this.load.image('life3', 'life2.png');
         this.load.image('emptyLife', 'life3.png');
+        this.load.image('meat', 'meat.png');
 
         this.load.setPath(this.URL + 'assets/audio');
         this.load.audio('gameMusic', 'gameMusic.mp3');

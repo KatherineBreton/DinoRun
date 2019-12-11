@@ -17,12 +17,13 @@ class Play extends Phaser.Scene{
 
     create() {
         this.livesBar = this.add.image(140, 40, 'life1');
-        this.livesBar.setDepth(3);
+        this.livesBar.setDepth(4);
         this.livesBar2 = this.add.image(140, 40, 'life2');
-        this.livesBar2.setDepth(2);
+        this.livesBar2.setDepth(3);
         this.livesBar3 = this.add.image(140, 40, 'life3');
-        this.livesBar3.setDepth(1);
-        this.livesBar3 = this.add.image(140, 40, 'emptyLife');
+        this.livesBar3.setDepth(2);
+        this.livesBar4 = this.add.image(140, 40, 'emptyLife');
+        this.livesBar4.setDepth(1);
 
         this.score = new Text(
             this,
@@ -56,6 +57,15 @@ class Play extends Phaser.Scene{
             /*removeCallback: function (obstacle) {
                 obstacle.scene.obstacleGroup.add(obstacle);
             }*/
+        });
+
+        this.meatGroup = this.add.group({
+            removeCallback: function (meat) {
+                meat.scene.obstaclePool.add(meat);
+            }
+        });
+
+        this.meatPool = this.add.group({
         });
 
         this.addedPlatforms = 0;
@@ -122,6 +132,7 @@ class Play extends Phaser.Scene{
                     this.platformGroup.add(platform);
                 }
                 this.handleObstacle(platformWidth, posX);
+                this.handleMeat(platformWidth, posX);
             }else {
                 platform = this.physics.add.sprite(posX, this.game.config.height * 0.8, 'platform');
                 platform.setImmovable(true);
@@ -158,6 +169,31 @@ class Play extends Phaser.Scene{
         }
     }
 
+    handleMeat(platformWidth, posX){
+        let meat;
+        if(this.meatPool.getLength()){
+            meat = this.meatPool.getFirst();
+            meat.x = posX;
+            meat.active = true;
+            meat.visible = true;
+            this.meatPool.remove(meat);
+        }else{
+            meat = this.physics.add.sprite(posX - platformWidth / 2 + Phaser.Math.Between(1, platformWidth), 0, 'meat');
+            meat.setGravityY(400);
+
+            for(let i = 0; i < this.platformGroup.getChildren().length; i++) {
+                let p =  this.platformGroup.getChildren()[i];
+                this.physics.add.collider(meat, p);
+            }
+            this.physics.add.collider(this.player, meat, () => {
+                this.meatCollide();
+                this.meatPool.remove(meat);
+                meat.destroy();
+            }, null, this);
+            this.meatGroup.add(meat);
+        }
+    }
+
     //When the player touches an obstacle
     obstacleCollide(){
         if(this.lives === 3){
@@ -176,12 +212,12 @@ class Play extends Phaser.Scene{
     meatCollide(){
         if(this.lives < 3){
             if(this.lives === 2){
-                this.livesBar = this.add.image(30, 30, 'life');
-                this.livesBar.setDepth(1);
+                this.livesBar = this.add.image(140, 40, 'life1');
+                this.livesBar.setDepth(4);
                 this.lives++;
             }else if (this.lives === 1){
-                this.livesBar2 = this.add.image(30, 30, 'life2');
-                this.livesBar2.setDepth(2);
+                this.livesBar2 = this.add.image(140, 40, 'life2');
+                this.livesBar2.setDepth(3);
                 this.lives++;
             }
         }
@@ -227,7 +263,7 @@ class Play extends Phaser.Scene{
         // this.player.anims.play('walk', true);
         this.meteor.anims.play('burn', true);
 
-        // this.debugText.setText("Lives : " + this.lives);
+        this.debugText.setText("Lives : " + this.lives);
         this.getScore(this.getTime());
 
         if((this.player.y > this.game.config.height) || (this.lives === 0)){
@@ -285,11 +321,11 @@ class Play extends Phaser.Scene{
         }
 
        // Recycling obstacles
-        this.obstacleGroup.getChildren().forEach(function(obstacle){
-            if(obstacle < - obstacle / 2){
-                this.obstacleGroup.killAndHide(obstacle);
-                this.obstacleGroup.remove(obstacle);
-            }
-        }, this);
+       //  this.obstacleGroup.getChildren().forEach(function(obstacle){
+       //      if(obstacle < - obstacle / 2){
+       //          this.obstacleGroup.killAndHide(obstacle);
+       //          this.obstacleGroup.remove(obstacle);
+       //      }
+       //  }, this);
     }
 }
