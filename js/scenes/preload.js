@@ -96,7 +96,7 @@ class Preload extends Phaser.Scene{
             key: 'jump',
             frames: this.anims.generateFrameNumbers('player', { start: 4, end: 4 }),
             frameRate: 12,
-            repeat: -1
+            repeat: 0
         });
 
 
