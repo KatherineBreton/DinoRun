@@ -10,15 +10,23 @@ class GameOver extends Phaser.Scene{
     }
 
     create(){
-        this.gameOver = this.add.image(this.CONFIG.centerX, 140, 'gameOver');
+        console.log(this.OPTIONS.scoreArray);
+        this.gameOver = this.add.image(this.CONFIG.centerX, 100, 'gameOver');
         this.gameOverMusic = this.sound.add('gameOverMusic');
         this.gameOverMusic.play();
         this.input.on('pointerdown', () => this.scene.start('Play'));
         this.replayText = new Text(
             this,
             this.CONFIG.centerX,
-            250,
+            280,
             'Cliquez pour rejouer',
+            'title'
+        );
+        this.score = new Text(
+            this,
+            this.CONFIG.centerX,
+            200,
+            'Votre score est de :  ' + this.OPTIONS.scoreArray[this.OPTIONS.scoreArray.length - 1],
             'title'
         );
     }

@@ -40,6 +40,7 @@ App.prototype.start = function(){
         // tile (size in pixel of every individual tiles
     };
     game.OPTIONS = {
+        scoreArray : [],
         lives : 3,
         platformStartSpeed : 250,
         backgroundSpeed : 150,
