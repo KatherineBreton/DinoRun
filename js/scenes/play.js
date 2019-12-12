@@ -212,6 +212,8 @@ class Play extends Phaser.Scene{
             this.lives--;
         }
         this.player.anims.play('collide', true);
+        this.collide = this.sound.add('collide');
+        this.collide.play();
     }
 
     //When the player gets a piece of meat
