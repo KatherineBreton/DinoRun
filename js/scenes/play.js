@@ -27,7 +27,9 @@ class Play extends Phaser.Scene{
         this.livesBar4.setDepth(1);
 
         this.music = this.sound.add('gameMusic', true);
-        this.music.play();
+        this.music.play({
+            loop : true
+        });
 
         this.score = new Text(
             this,
@@ -37,9 +39,9 @@ class Play extends Phaser.Scene{
             'title'
         );
 
-       this.debugText =  this.add.text(this.CONFIG.centerX - 280, 320, 'debug:',{
-            fontSize: '20px', fill: 'black'
-        });
+       // this.debugText =  this.add.text(this.CONFIG.centerX - 280, 320, 'debug:',{
+       //      fontSize: '20px', fill: 'white'
+       //  });
 
         //Group with all active platforms
         this.platformGroup = this.add.group({
@@ -99,17 +101,7 @@ class Play extends Phaser.Scene{
         //Click with the mouse or use the keyboard to make the player jump
         this.input.keyboard.on('keyup', this.jump, this);
         this.input.on("pointerdown", this.jump, this);
-
-        // this.time.addEvent({
-        //     delay: 3000,
-        //     loop: true,
-        //     callback: this.increaseSpeed()
-        // });
     }
-
-    // increaseSpeed(){
-        // this.platformSpeed = this.platformSpeed * 2;
-    // }
 
     addPlatform(platformWidth, posX){
         this.addedPlatforms++;
@@ -155,6 +147,7 @@ class Play extends Phaser.Scene{
             obstacle.x = posX;
             obstacle.active = true;
             obstacle.visible = true;
+            obstacle.setImmovable = true;
             this.obstaclePool.remove(obstacle);
         }else{
             obstacle = this.physics.add.sprite(posX - platformWidth / 2 + Phaser.Math.Between(1, platformWidth), 0, 'obstacle');
@@ -180,6 +173,7 @@ class Play extends Phaser.Scene{
             meat.x = posX;
             meat.active = true;
             meat.visible = true;
+            meat.setImmovable = true;
             this.meatPool.remove(meat);
         }else{
             meat = this.physics.add.sprite(posX - platformWidth / 2 + Phaser.Math.Between(1, platformWidth), 0, 'meat');
@@ -200,6 +194,13 @@ class Play extends Phaser.Scene{
 
     //When the player touches an obstacle
     obstacleCollide(){
+        // this.time.addEvent({
+        //     delay: 200,
+        //     callback: () => { this.player.setTint(0x0099ff); },
+        //     callbackScope: this
+        // });
+        // this.player.setTint(false);
+        // this.player.setTint(none);
         if(this.lives === 3){
             this.livesBar.destroy();
             this.lives--;
@@ -263,9 +264,22 @@ class Play extends Phaser.Scene{
         }
     }
 
+    increaseSpeed(){
+        if(this.getTime() === '30'){
+            this.platformSpeed = 290;
+        }else if(this.getTime() === '60'){
+            this.platformSpeed = 330;
+        }else if(this.getTime() === '90'){
+            this.platformSpeed = 370;
+        }else if(this.getTime() === '120'){
+            this.platformSpeed = 400;
+        }
+    }
+
     update(){
-        // this.player.anims.play('walk', true);
         this.meteor.anims.play('burn', true);
+        this.increaseSpeed();
+        // this.debugText.setText(this.platformSpeed);
 
         // this.debugText.setText("Lives : " + this.lives);
         this.getScore(this.getTime());
@@ -282,7 +296,6 @@ class Play extends Phaser.Scene{
                 this.livesBar3.destroy();
             }
             this.isGameOver = true;
-            // this.input.on('pointerdown', () => this.scene.restart());
         }
 
         //GameOver message

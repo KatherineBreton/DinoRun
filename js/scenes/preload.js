@@ -17,7 +17,7 @@ class Preload extends Phaser.Scene{
         //files
         this.load.image('juraLogo', 'jura.png');
         this.load.spritesheet('player', 'dino.png', { frameWidth: 80, frameHeight: 60});
-        this.load.image('platform', 'platform.png');
+        this.load.image('platform', 'platform1.png');
         this.load.spritesheet('meteor', 'meteors.png', { frameWidth: 230, frameHeight: 230 });
         this.load.image('obstacle', 'obstacle1.png');
         this.load.image('gameOver', 'Game_Over.png');
