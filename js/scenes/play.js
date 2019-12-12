@@ -194,13 +194,6 @@ class Play extends Phaser.Scene{
 
     //When the player touches an obstacle
     obstacleCollide(){
-        // this.time.addEvent({
-        //     delay: 200,
-        //     callback: () => { this.player.setTint(0x0099ff); },
-        //     callbackScope: this
-        // });
-        // this.player.setTint(false);
-        // this.player.setTint(none);
         if(this.lives === 3){
             this.livesBar.destroy();
             this.lives--;
@@ -229,6 +222,8 @@ class Play extends Phaser.Scene{
                 this.lives++;
             }
         }
+        this.eatSound = this.sound.add('eat');
+        this.eatSound.play();
     }
 
     jump(){
