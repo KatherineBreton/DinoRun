@@ -14,8 +14,8 @@ class Menu extends Phaser.Scene{
         // this.title = new Text(
         //     this,
         //     this.CONFIG.centerX,
-        //     75,
-        //     'Jura Pixel',
+        //     310,
+        //     'Cliquez pour faire sauter le dino',
         //     'title',
         // );
 

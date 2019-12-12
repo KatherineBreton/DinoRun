@@ -211,6 +211,7 @@ class Play extends Phaser.Scene{
             this.livesBar3.destroy();
             this.lives--;
         }
+        this.player.anims.play('collide', true);
     }
 
     //When the player gets a piece of meat
